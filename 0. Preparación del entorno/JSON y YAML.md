@@ -23,7 +23,7 @@ Un **lenguaje de marcas** (markup language) como **HTML** o **XML** se caracteri
 
 #### JSON y YAML
 - **JSON (JavaScript Object Notation)**:  
-  Es un **formato de intercambio de datos**, no un lenguaje de marcas. Está basado en objetos (`{}`) y vectores/arrays (`[]`) y se usa ampliamente en APIs y aplicaciones web.
+  Es un **formato de intercambio de datos**, no un lenguaje de marcas. Está basado en objetos (`{}`) y listas (`[]`) y se usa ampliamente en APIs y aplicaciones web.
 
 - **YAML (YAML Ain’t Markup Language)**:  
   Como su propio nombre indica, **no es un lenguaje de marcas**. Es un lenguaje de **serialización de datos**, diseñado para ser muy legible, y se emplea en configuraciones de sistemas, DevOps y cloud.
