@@ -13,6 +13,34 @@ uso.
     humanos, muy usado en configuración de aplicaciones, sistemas y
     contenedores.
 
+### ¿Son JSON y YAML lenguajes de marcas?
+
+#### Lenguajes de marcas
+Un **lenguaje de marcas** (markup language) como **HTML** o **XML** se caracteriza por:
+- Utilizar **etiquetas o marcas** (ejemplo: `<p>texto</p>`).
+- Estar orientado a describir la **estructura y el formato de documentos**.
+- Permitir atributos en las etiquetas para aportar información adicional.
+
+#### JSON y YAML
+- **JSON (JavaScript Object Notation)**:  
+  Es un **formato de intercambio de datos**, no un lenguaje de marcas. Está basado en objetos (`{}`) y vectores/arrays (`[]`) y se usa ampliamente en APIs y aplicaciones web.
+
+- **YAML (YAML Ain’t Markup Language)**:  
+  Como su propio nombre indica, **no es un lenguaje de marcas**. Es un lenguaje de **serialización de datos**, diseñado para ser muy legible, y se emplea en configuraciones de sistemas, DevOps y cloud.
+
+#### Diferencias clave
+| Característica       | Lenguajes de marcas (HTML, XML)  | JSON / YAML |
+|----------------------|----------------------------------|-------------|
+| Propósito            | Representar documentos y su estructura | Representar datos |
+| Sintaxis             | Basado en etiquetas `<etiqueta>` | Basado en objetos, listas e indentación |
+| Legibilidad humana   | Media (XML muy verboso)          | Alta (YAML) o media (JSON) |
+| Ejemplos de uso      | Páginas web, RSS, SVG            | APIs, configuración, DevOps |
+
+#### Conclusión
+Ni JSON ni YAML son lenguajes de marcas.  
+Ambos son **lenguajes de serialización de datos** diseñados para **almacenar, transferir y configurar información estructurada**, no para describir documentos.
+
+
 ------------------------------------------------------------------------
 
 ## 2. Estructura de JSON
