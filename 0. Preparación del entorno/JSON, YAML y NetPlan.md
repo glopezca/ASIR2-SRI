@@ -8,7 +8,7 @@ estructurada y legible, aunque con diferencias en sintaxis y casos de
 uso.
 
 -   **JSON (JavaScript Object Notation)**: formato ligero basado en
-    texto, muy extendido en aplicaciones web y APIs.\
+    texto, muy extendido en aplicaciones web y APIs.
 -   **YAML (YAML Ain't Markup Language)**: formato más legible para
     humanos, muy usado en configuración de aplicaciones, sistemas y
     contenedores.
@@ -66,43 +66,21 @@ configuracion:
 
 ## 4. Comparación rápida JSON vs YAML
 
-  ------------------------------------------------------------------------
-  Aspecto          JSON                      YAML
-  ---------------- ------------------------- -----------------------------
-  Legibilidad      Media (muchos símbolos)   Alta (indentación clara)
-  humana                                     
-
-  Uso principal    APIs, intercambio de      Configuración, DevOps
-                   datos                     
-
-  Comentarios      No soporta                Soporta con `#`
-
-  Estructura       Llaves `{}`, corchetes    Indentación por espacios
-                   `[]`                      
-
-  Extensión típica `.json`                   `.yaml` o `.yml`
-  ------------------------------------------------------------------------
+| Aspecto            | JSON                         | YAML                       |
+|---------------------|------------------------------|----------------------------|
+| Legibilidad humana  | Media (muchos símbolos)      | Alta (indentación clara)   |
+| Uso principal       | APIs, intercambio de datos   | Configuración, DevOps      |
+| Comentarios         | No soporta                   | Soporta con `#`            |
+| Estructura          | Llaves `{}`, corchetes `[]`  | Indentación por espacios   |
+| Extensión típica    | `.json`                      | `.yaml` o `.yml`           |
 
 ------------------------------------------------------------------------
 
-# Ejemplos agrupados (GNU/Linux, Docker y Kubernetes) y explicación completa de **Netplan**
+# Ejemplos de uso
 
-## 1) Ejemplos agrupados
+## Aplicaciones
 
-### Sistema GNU/Linux
-
-**Archivo JSON del daemon de Docker (sistema):**
-`/etc/docker/daemon.json`
-
-``` json
-{
-  "log-driver": "json-file",
-  "storage-driver": "overlay2"
-}
-```
-
-**Ejemplo de `package.json` (archivo de proyecto Node.js --- aplicación
-en el sistema):**
+**Ejemplo de `package.json` (archivo de proyecto Node.js --- aplicación en el sistema):**
 
 ``` json
 {
@@ -117,13 +95,138 @@ en el sistema):**
 }
 ```
 
-**(Referencia) Ubicación típica para Netplan:** `/etc/netplan/*.yaml`
+## Netplan - sistemas GNU/Linux
+
+### ¿Qué es Netplan?
+
+Netplan es una utilidad en varias distribuciones (p. ej. Ubuntu moderno)
+que **define la configuración de red** mediante archivos YAML en
+`/etc/netplan/`. Netplan traduce esos archivos a la configuración del
+*backend* (normalmente `systemd-networkd` o `NetworkManager`) y aplica
+la configuración al sistema.
 
 ------------------------------------------------------------------------
 
+### Estructura mínima (esqueleto)
+
+``` yaml
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eno1:
+      dhcp4: true
+```
+
+------------------------------------------------------------------------
+
+### Campos comunes por interfaz (descripción)
+
+-   `dhcp4`, `dhcp6`
+-   `addresses`
+-   `gateway4`, `gateway6`
+-   `nameservers`
+-   `routes`
+-   `routing-policy`
+-   `dhcp4-overrides`, `dhcp6-overrides`
+-   `mtu`
+-   `optional`
+-   `renderer`
+
+------------------------------------------------------------------------
+
+### Elementos de red avanzados (ejemplos cortos)
+
+**VLAN, Bridge, Bond, Wi-Fi** → ejemplos incluidos.
+
+------------------------------------------------------------------------
+
+### Ejemplo completo --- configuración estática con IPv4/IPv6, DNS, rutas y overrides
+
+``` yaml
+# /etc/netplan/01-network-static.yaml
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eno1:
+      dhcp4: false
+      dhcp6: false
+      addresses:
+        - 192.168.10.50/24
+        - 2001:db8::50/64
+      gateway4: 192.168.10.1
+      gateway6: 2001:db8::1
+      nameservers:
+        search: [example.com, local]
+        addresses: [8.8.8.8, 1.1.1.1]
+      routes:
+        - to: 10.0.0.0/8
+          via: 192.168.10.254
+          metric: 100
+      routing-policy:
+        - from: 192.168.10.50/32
+          table: 100
+          priority: 100
+      dhcp4-overrides:
+        use-dns: false
+      mtu: 1500
+      optional: false
+
+  wifis:
+    wlan0:
+      dhcp4: true
+      access-points:
+        "Cafeteria-WiFi":
+          password: "cafepassword123"
+        "Biblioteca-Estudio":
+          password: "biblioteca456"
+        "Laboratorio-ASIR":
+          password: "asir2025!"
+```
+
+------------------------------------------------------------------------
+
+### Comandos útiles (verificar/generar/aplicar)
+
+-   `sudo netplan try`
+-   `sudo netplan generate`
+-   `sudo netplan apply`
+-   `sudo netplan --debug apply`
+-   Ver estado de interfaces y rutas: `ip addr`, `ip route`,
+    `ip -6 route`
+
+------------------------------------------------------------------------
+
+### Resumen rápido
+
+-   Archivos Netplan: `/etc/netplan/*.yaml`
+-   Sintaxis: YAML
+-   Elementos principales: `network`, `version`, `renderer`,
+    `ethernets`, `bridges`, `vlans`, `bonds`, `wifis`
+-   Comandos: `netplan generate`, `netplan try`, `netplan apply`
+
+------------------------------------------------------------------------
+
+## Contenedores en Docker y Kubernetes
+
 ### Docker
 
-**`docker-compose.yml` (YAML --- define servicios, redes y volúmenes):**
+**Archivo JSON del daemon de Docker (sistema):**
+`/etc/docker/daemon.json`
+
+``` json
+{
+  "log-driver": "json-file",
+  "storage-driver": "overlay2"
+}
+```
+
+------------------------------------------------------------------------
+
+### Docker Compose
+
+**Ejemplo de `docker-compose.yml` (YAML --- define servicios, redes y volúmenes):**
 
 ``` yaml
 version: "3.9"
@@ -142,7 +245,7 @@ services:
 
 ### Kubernetes
 
-**`deployment.yaml` (manifiesto de Kubernetes --- ejemplo básico):**
+**Ejemplo de `deployment.yaml` (manifiesto de Kubernetes --- ejemplo básico):**
 
 ``` yaml
 apiVersion: apps/v1
@@ -185,102 +288,3 @@ spec:
 
 ------------------------------------------------------------------------
 
-## 2) Netplan --- explicación completa
-
-### ¿Qué es Netplan?
-
-Netplan es una utilidad en varias distribuciones (p. ej. Ubuntu moderno)
-que **define la configuración de red** mediante archivos YAML en
-`/etc/netplan/`. Netplan traduce esos archivos a la configuración del
-*backend* (normalmente `systemd-networkd` o `NetworkManager`) y aplica
-la configuración al sistema.
-
-------------------------------------------------------------------------
-
-### Estructura mínima (esqueleto)
-
-``` yaml
-network:
-  version: 2
-  renderer: networkd
-  ethernets:
-    eno1:
-      dhcp4: true
-```
-
-------------------------------------------------------------------------
-
-### Campos comunes por interfaz (descripción)
-
--   `dhcp4`, `dhcp6`\
--   `addresses`\
--   `gateway4`, `gateway6`\
--   `nameservers`\
--   `routes`\
--   `routing-policy`\
--   `dhcp4-overrides`, `dhcp6-overrides`\
--   `mtu`\
--   `optional`\
--   `renderer`
-
-------------------------------------------------------------------------
-
-### Elementos de red avanzados (ejemplos cortos)
-
-**VLAN, Bridge, Bond, Wi-Fi** → ejemplos incluidos.
-
-------------------------------------------------------------------------
-
-### Ejemplo completo --- configuración estática con IPv4/IPv6, DNS, rutas y overrides
-
-``` yaml
-# /etc/netplan/01-network-static.yaml
-network:
-  version: 2
-  renderer: networkd
-  ethernets:
-    eno1:
-      dhcp4: false
-      dhcp6: false
-      addresses:
-        - 192.168.10.50/24
-        - 2001:db8::50/64
-      gateway4: 192.168.10.1
-      gateway6: 2001:db8::1
-      nameservers:
-        search: [example.com, local]
-        addresses: [8.8.8.8, 1.1.1.1]
-      routes:
-        - to: 10.0.0.0/8
-          via: 192.168.10.254
-          metric: 100
-      routing-policy:
-        - from: 192.168.10.50/32
-          table: 100
-          priority: 100
-      dhcp4-overrides:
-        use-dns: false
-      mtu: 1500
-      optional: false
-```
-
-------------------------------------------------------------------------
-
-### Comandos útiles (verificar/generar/aplicar)
-
--   `sudo netplan try`
--   `sudo netplan generate`
--   `sudo netplan apply`
--   `sudo netplan --debug apply`
--   Ver estado de interfaces y rutas: `ip addr`, `ip route`,
-    `ip -6 route`
-
-------------------------------------------------------------------------
-
-### Resumen rápido
-
--   Archivos Netplan: `/etc/netplan/*.yaml`\
--   Sintaxis: YAML\
--   Elementos principales: `network`, `version`, `renderer`,
-    `ethernets`, `bridges`, `vlans`, `bonds`, `wifis`\
--   Comandos: `netplan generate`, `netplan try`, `netplan apply`
