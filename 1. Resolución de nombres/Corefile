@@ -1,0 +1,9 @@
+tierramedia.jc {
+    file db.tierramedia.jc
+    log
+}
+
+. {
+    forward . 8.8.8.8 9.9.9.9
+    log
+}
