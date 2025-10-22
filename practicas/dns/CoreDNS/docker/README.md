@@ -106,9 +106,9 @@ tierramedia.jc:53 {
 
 ```dns
 $ORIGIN tierramedia.jc.
-@         IN  SOA comarca.tierramedia.jc. admin.tierramedia.jc. 2509161149 7200 3600 1209600 3600
-comarca    IN  A   192.168.103.253
-@       IN A    192.168.103.253
+@       IN  SOA     comarca.tierramedia.jc. admin.tierramedia.jc. 2509161149 7200 3600 1209600 3600
+comarca IN  A       192.168.103.253
+@       IN  A       192.168.103.253
 ns      IN  CNAME   comarca
 ```
 
@@ -229,7 +229,7 @@ Bloque `tierramedia.jc:53` → sirve registros locales desde `db.tierramedia.jc`
 - 🧮 **Incrementar el serial SOA** tras cada cambio.
 - ⚠️ **Evitar conflictos en el puerto 53** con otros resolvers locales.
 - 📈 **Logs detallados:** útiles para depuración, pero generan ruido.
-- 🧰 **Pruebas avanzadas:** usar `tcpdump -i any port 53` o `dig +tcp` para analizar tráfico.
+- 🧰 **Pruebas avanzadas:** usar `tcpdump -i any port 5353` o `dig +tcp` para analizar tráfico.
 
 ---
 
