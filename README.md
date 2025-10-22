@@ -53,7 +53,7 @@ docker compose up -d
 
 ```bash
 ├── docs/                # Documentación teórica y guías rápidas
-├── practicas/           # Ejercicios prácticos por tema
+├── talleres/            # Ejercicios prácticos por tema
 │   ├── dns/             # Ejemplo de servidor CoreDNS
 │   ├── web/             # Configuración Apache/Nginx
 │   └── correo/          # Postfix/Dovecot
@@ -71,7 +71,7 @@ Incluye:
 - Archivos de configuración (`docker-compose.yaml`, `Corefile`, `db.tierramedia.jc`).
 - Pruebas DNS y comandos básicos.
 
-📘 [Ver guía completa de CoreDNS](./practicas/dns/CoreDNS.md)
+📘 [Ver guía completa de CoreDNS](./talleres/dns/CoreDNS/docker/README.md)
 
 ---
 
