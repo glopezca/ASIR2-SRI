@@ -105,11 +105,12 @@ tierramedia.jc:53 {
 ### 🌍 `conf/db.tierramedia.jc`
 
 ```dns
-$ORIGIN tierramedia.jc.
-@       IN  SOA     comarca.tierramedia.jc. admin.tierramedia.jc. 2509161149 7200 3600 1209600 3600
-comarca IN  A       192.168.103.253
-@       IN  A       192.168.103.253
-ns      IN  CNAME   comarca
+$ORIGIN     tierramedia.jc.
+@           IN  SOA     ns.tierramedia.jc. admin.tierramedia.jc. 2509161149 7200 3600 1209600 3600
+@           IN  A       192.168.103.253
+ns          IN  CNAME   comarca
+comarca     IN  A       192.168.103.253
+lothlorien  IN  A       192.168.103.16
 ```
 
 ---

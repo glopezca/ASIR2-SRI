@@ -8,7 +8,7 @@
 
 tierramedia.jc.	IN NS ns.tierramedia.jc.
 
-lothlorien	IN A		172.26.170.39
+lothlorien		IN A		172.26.170.39
         	IN AAAA		::1
 comarca		IN A		127.0.0.1
 tierramedia.jc	IN A	172.26.170.39
