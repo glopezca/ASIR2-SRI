@@ -107,7 +107,7 @@ tierramedia.jc:53 {
 ```dns
 $ORIGIN     tierramedia.jc.
 @           IN  SOA     ns.tierramedia.jc. admin.tierramedia.jc. (
-  2017042745 ; serial
+    2017042745 ; serial
 	7200       ; refresh (2 hours)
 	3600       ; retry (1 hour)
 	1209600    ; expire (2 weeks)
