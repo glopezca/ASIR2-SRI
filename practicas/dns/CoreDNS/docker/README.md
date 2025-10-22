@@ -29,6 +29,14 @@ Este documento explica **paso a paso** cómo lanzar, comprobar y analizar el fun
 
 ## 📂 2. Ficheros incluidos
 
+```bash
+├── conf/                     # Carpeta de configuración de CoreDNS
+│   ├── Corefile/             # Configuración del servicio
+│   └── db.tierramedia.jc/    # Zona maestra
+├── docker-compose.yaml       # Despliegue en Docker Compose
+└── README.md                 # Este fichero
+```
+
 Los tres ficheros son:
 
 ### 🐋 `docker-compose.yaml`
@@ -227,4 +235,4 @@ Bloque `tierramedia.jc:53` → sirve registros locales desde `db.tierramedia.jc`
 
 ---
 
-**Autor:** 🧑‍💻 *Germán López Castro*\
+**Autor:** 🧑‍💻 *Germán López Castro*
