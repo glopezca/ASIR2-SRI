@@ -1,6 +1,13 @@
 $ORIGIN     tierramedia.jc.
-@           IN  SOA     ns.tierramedia.jc. admin.tierramedia.jc. 2509161149 7200 3600 1209600 3600
-@           IN  A       192.168.103.253
-ns          IN  CNAME   comarca
-comarca     IN  A       192.168.103.253
-lothlorien  IN  A       192.168.103.16
+@           IN  SOA     ns.tierramedia.jc. admin.tierramedia.jc. (
+    2017042745 ; serial
+	7200       ; refresh (2 hours)
+	3600       ; retry (1 hour)
+	1209600    ; expire (2 weeks)
+	3600       ; minimum (1 hour)
+)
+tierramedia.jc.	IN  NS      ns.tierramedia.jc.
+@               IN  A       192.168.103.253
+ns              IN  CNAME   comarca
+comarca         IN  A       192.168.103.253
+lothlorien      IN  A       192.168.103.16
