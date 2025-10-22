@@ -37,8 +37,6 @@ Este documento explica **paso a paso** cómo lanzar, comprobar y analizar el fun
 └── README.md                 # Este fichero
 ```
 
-Los tres ficheros son:
-
 ### 🐋 `docker-compose.yaml`
 
 ```yaml
