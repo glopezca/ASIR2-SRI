@@ -41,7 +41,7 @@ Este documento explica **paso a paso** cómo lanzar, comprobar y analizar el fun
 
 ```yaml
 services:
-  coredns:
+  coredns-comarca:
     image: coredns/coredns:latest
     container_name: coredns
     command: -conf /etc/coredns/Corefile -dns.port 53
@@ -49,8 +49,8 @@ services:
     tty: true
     restart: unless-stopped
     ports:
-      - "53:53"
-      - "53:53/udp"
+      - "5353:53"
+      - "5353:53/udp"
       - "8080:8080"
     volumes:
       - ./conf/Corefile:/etc/coredns/Corefile
@@ -59,30 +59,47 @@ services:
       tierramedia:
         ipv4_address: 192.168.103.253
     domainname: tierramedia.jc
-    hostname: dns
+    hostname: comarca
 
-  client:
+  client-lothlorien:
     image: ubuntu:latest
-    container_name: client
-    command: bash -c "apt update && apt install -y iputils-ping dnsutils net-tools && sleep infinity"
+    container_name: lothlorien
+    command: bash -c "
+      echo 'tzdata tzdata/Areas select Europe' | debconf-set-selections &&
+      echo 'tzdata tzdata/Zones/Europe select Madrid' | debconf-set-selections &&
+      apt update &&
+      DEBIAN_FRONTEND=noninteractive apt install -y tzdata &&
+      dpkg-reconfigure --frontend noninteractive tzdata &&
+      apt upgrade -y &&
+      apt install -y
+        iputils-ping
+        dnsutils
+        net-tools &&
+      sleep infinity"
     stdin_open: true
     tty: true
+    #entrypoint: /bin/bash
     depends_on:
-      - coredns
+      - coredns-comarca
+    volumes:
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/group:/etc/group:ro
     networks:
       tierramedia:
-        ipv4_address: 192.168.103.16
+        ipv4_address: 192.168.103.16 
     dns:
       - 192.168.103.253
     domainname: tierramedia.jc
-    hostname: client
+    hostname: lothlorien
       
 networks:
+  default:
+    driver: bridge 
   tierramedia:
     driver: bridge
     ipam:
       config:
-        - subnet: 192.168.103.0/24
+        - subnet: 192.168.103.0/24  
 ```
 
 ### ⚙️ `conf/Corefile`
