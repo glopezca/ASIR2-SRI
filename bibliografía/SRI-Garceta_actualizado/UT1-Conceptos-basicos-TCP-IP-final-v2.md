@@ -1,3 +1,10 @@
+
+> 🔬 **VERSIÓN V2 · REVISIÓN TÉCNICA 2026-09-18**
+>
+> Se ha realizado una segunda pasada sobre los bloques de código y las configuraciones prácticas. Corregido un placeholder (`<gateway>`) que se interpretaba como redirección de shell; se usa la puerta de enlace del laboratorio.
+>
+> ⚠️ La validación automática cubre sintaxis y configuraciones aisladas; la validación extremo a extremo > de Cisco Packet Tracer, WSL2 y una VM real de Ubuntu 26.04 Server requiere ejecutar el laboratorio en esos entornos.
+
 ::: {align="center"}
 # 🌐⚡ UT1 · CONCEPTOS BÁSICOS DE TCP/IP ⚡🌐
 
@@ -1821,7 +1828,7 @@ Comandos:
 ip link
 ip addr
 ip route
-ping -c 4 <gateway>
+ping -c 4 192.168.10.1
 ip route get 1.1.1.1
 ping -c 4 1.1.1.1
 resolvectl status
