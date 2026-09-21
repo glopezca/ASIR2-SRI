@@ -1,0 +1,37 @@
+{
+  "name": "SRI · ASIR · Docker + GitHub Codespaces",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:4.0.0": {
+      "moby": true,
+      "installDockerComposeSwitch": false
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "hostRequirements": {
+    "cpus": 4
+  },
+  "forwardPorts": [8000, 8080, 8119, 1935, 5222, 6667],
+  "portsAttributes": {
+    "8000": { "label": "UT8 Icecast" },
+    "8080": { "label": "UT5 Web" },
+    "8119": { "label": "UT7 NNTP lab" },
+    "1935": { "label": "UT8 RTMP" },
+    "5222": { "label": "UT7 XMPP" },
+    "6667": { "label": "UT7 IRC" }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "redhat.vscode-yaml",
+        "streetsidesoftware.code-spell-checker"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  },
+  "postCreateCommand": "bash scripts/verify-compose.sh --config-only"
+}

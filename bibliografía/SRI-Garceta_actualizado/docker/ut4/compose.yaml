@@ -1,0 +1,26 @@
+services:
+  fileserver:
+    build: .
+    ports:
+      - "2121:21"
+      - "40000-40009:40000-40009"
+      - "2222:22"
+    volumes:
+      - ftpdata:/srv/ftp
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 21 && nc -z 127.0.0.1 22"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  client:
+    image: ubuntu:26.04
+    depends_on:
+      fileserver:
+        condition: service_healthy
+    command: >-
+      bash -lc "apt-get update -qq && apt-get install -y -qq curl netcat-openbsd openssh-client
+      ftp >/dev/null && sleep infinity"
+
+volumes:
+  ftpdata:

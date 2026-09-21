@@ -1,0 +1,43 @@
+services:
+  xmpp:
+    build: ./prosody
+    ports:
+      - "5222:5222"
+    healthcheck:
+      test: ["CMD", "bash", "-lc", "ss -lnt | grep -q ':5222 '"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+  irc:
+    build: ./inspircd
+    ports:
+      - "6667:6667"
+    healthcheck:
+      test: ["CMD", "bash", "-lc", "ss -lnt | grep -q ':6667 '"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+  nntp:
+    build: ./inn
+    ports:
+      - "8119:8119"
+    healthcheck:
+      test: ["CMD", "bash", "-lc", "ss -lnt | grep -q ':8119 '"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+
+  client:
+    image: ubuntu:26.04
+    depends_on:
+      xmpp:
+        condition: service_healthy
+      irc:
+        condition: service_healthy
+      nntp:
+        condition: service_healthy
+    command: >-
+      bash -lc "apt-get update -qq && apt-get install -y -qq netcat-openbsd dnsutils
+      >/dev/null && sleep infinity"

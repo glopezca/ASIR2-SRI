@@ -1,0 +1,31 @@
+services:
+  apache:
+    build: ./apache
+    expose:
+      - "80"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1/"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  nginx:
+    build: ./nginx
+    depends_on:
+      apache:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1/"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  client:
+    image: ubuntu:26.04
+    depends_on:
+      nginx:
+        condition: service_healthy
+    command: >-
+      bash -lc "apt-get update -qq && apt-get install -y -qq curl >/dev/null && curl -fsS http://nginx/"

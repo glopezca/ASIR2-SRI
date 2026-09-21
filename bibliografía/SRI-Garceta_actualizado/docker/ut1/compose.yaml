@@ -1,0 +1,22 @@
+services:
+  server:
+    image: ubuntu:26.04
+    command: >-
+      bash -lc "apt-get update -qq && apt-get install -y -qq python3 iproute2 iputils-ping
+      netcat-openbsd curl >/dev/null && mkdir -p /srv/www && echo 'UT1 · servidor TCP/IP'
+      > /srv/www/index.html && cd /srv/www && python3 -m http.server 8080 --bind 0.0.0.0"
+    ports:
+      - "18081:8080"
+    networks: [ut1]
+
+  client:
+    image: ubuntu:26.04
+    depends_on:
+      - server
+    command: >-
+      bash -lc "apt-get update -qq && apt-get install -y -qq iproute2 iputils-ping
+      netcat-openbsd curl >/dev/null && sleep infinity"
+    networks: [ut1]
+
+networks:
+  ut1:

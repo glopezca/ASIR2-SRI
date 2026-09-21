@@ -1,0 +1,20 @@
+name: Docker Compose labs
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  compose:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ut: [ut1, ut2, ut3, ut4, ut5, ut6, ut7, ut8]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Validate Compose
+        run: docker compose -f docker/${{ matrix.ut }}/compose.yaml config
+      - name: Build images
+        run: docker compose -f docker/${{ matrix.ut }}/compose.yaml build

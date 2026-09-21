@@ -1,0 +1,19 @@
+services:
+  dns:
+    build: .
+    ports:
+      - "1053:53/tcp"
+      - "1053:53/udp"
+    healthcheck:
+      test: ["CMD", "dig", "@127.0.0.1", "www.asir.test", "+short"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  client:
+    image: ubuntu:26.04
+    depends_on:
+      dns:
+        condition: service_healthy
+    command: >-
+      bash -lc "apt-get update -qq && apt-get install -y -qq dnsutils curl >/dev/null && sleep infinity"
