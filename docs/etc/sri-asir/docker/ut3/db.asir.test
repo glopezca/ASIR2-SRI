@@ -1,8 +1,0 @@
-$TTL 300
-@ IN SOA dns01.asir.test. admin.asir.test. (
-  2026092101 3600 600 86400 300
-)
-  IN NS dns01.asir.test.
-dns01 IN A 10.30.0.10
-www   IN A 10.30.0.20
-mail  IN A 10.30.0.30
